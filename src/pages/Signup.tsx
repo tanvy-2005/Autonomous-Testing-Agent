@@ -125,7 +125,7 @@ export default function Signup() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="signup-confirm" className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Confirm</Label>
+            <Label htmlFor="signup-confirm" className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Confirm Password</Label>
             <Input
               id="signup-confirm"
               type="password"

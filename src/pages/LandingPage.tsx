@@ -16,7 +16,6 @@ import {
   XCircle,
   Lock,
   LineChart,
-  PlayCircle,
   Menu,
   X,
   Moon,
