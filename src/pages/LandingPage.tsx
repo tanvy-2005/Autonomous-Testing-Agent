@@ -248,19 +248,22 @@ const Timeline = () => {
           <p className="dark:text-slate-400 text-slate-600">Zero configuration setup. Let the AI do the heavy lifting.</p>
         </div>
 
-        <div className="space-y-12 relative before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-blue-500/50 before:to-transparent">
+        <div className="space-y-12 relative before:absolute before:inset-0 before:ml-6 md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-blue-500/50 before:to-transparent">
           {steps.map((step, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active"
+              className="relative flex items-center w-full"
             >
-              <div className="flex items-center justify-center w-12 h-12 rounded-full border-4 dark:border-[#020617] border-white dark:bg-blue-900/50 bg-blue-100 text-blue-500 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-lg z-10 relative left-0 md:left-1/2 md:-ml-6">
+              <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full border-4 dark:border-[#020617] border-white dark:bg-blue-900/50 bg-blue-100 text-blue-500 shadow-lg z-10">
                 <step.icon className="h-5 w-5" />
               </div>
-              <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 rounded-2xl dark:bg-white/5 bg-white border dark:border-white/10 border-slate-200 shadow-xl transition-all hover:-translate-y-1">
+              
+              <div className={`w-[calc(100%-4rem)] ml-auto md:w-[calc(50%-3rem)] p-6 rounded-2xl dark:bg-white/5 bg-white border dark:border-white/10 border-slate-200 shadow-xl transition-all hover:-translate-y-1 ${
+                i % 2 === 0 ? "md:mr-auto md:ml-0" : "md:ml-auto"
+              }`}>
                 <h3 className="font-bold text-lg mb-1 dark:text-white text-slate-900">{step.title}</h3>
                 <p className="text-sm dark:text-slate-400 text-slate-600">{step.desc}</p>
               </div>
