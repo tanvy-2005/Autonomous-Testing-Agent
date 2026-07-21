@@ -1,0 +1,11 @@
+{
+  "app": {
+    "[project]/Desktop/Autonomous Testing Agent/app/(auth)/login/page": [],
+    "[project]/Desktop/Autonomous Testing Agent/app/(auth)/signup/page": [],
+    "[project]/Desktop/Autonomous Testing Agent/app/_not-found/page": [],
+    "[project]/Desktop/Autonomous Testing Agent/app/page": []
+  },
+  "appUsingSizeAdjust": false,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}
