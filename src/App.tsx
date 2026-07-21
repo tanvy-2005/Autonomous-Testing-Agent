@@ -40,7 +40,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="flex min-h-screen w-full bg-background text-foreground font-sans selection:bg-primary/30">
+    <div className="flex h-screen w-full overflow-hidden bg-background text-foreground font-sans selection:bg-primary/30">
       {/* Left Section - Hero Panel (Hidden on Mobile) */}
       <div className="hidden lg:flex w-[45%] flex-col justify-between p-12 bg-black dark:bg-[#030712] relative overflow-hidden border-r border-border/50">
         {/* Background Gradients & Effects */}
@@ -127,7 +127,7 @@ export default function AuthPage() {
         </div>
 
         <div className="flex-1 flex items-center justify-center p-6 relative z-10">
-          <div className="w-full max-w-[420px] space-y-8">
+          <div className="w-[420px] shrink-0 space-y-8">
             <div className="text-center lg:text-left space-y-2">
               <h2 className="text-3xl font-bold tracking-tight">
                 {activeTab === "signin" ? "Welcome back" : "Create an account"}
