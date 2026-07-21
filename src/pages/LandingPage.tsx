@@ -14,7 +14,8 @@ import {
   Zap,
   LayoutDashboard,
   SearchCode,
-  Activity
+  Activity,
+  ShieldAlert
 } from "lucide-react";
 
 const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void }) => {
@@ -37,10 +38,12 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-            <Zap className="h-4 w-4 text-white" fill="currentColor" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 shadow-sm flex-shrink-0">
+            <ShieldAlert className="h-5 w-5 text-white" />
           </div>
-          <span className="font-bold text-xl tracking-tight dark:text-white text-slate-900">ATA</span>
+          <span className="font-bold text-lg tracking-tight dark:text-white text-slate-900 hidden sm:inline-block">
+            Autonomous Testing Agent
+          </span>
         </div>
 
         <nav className="hidden md:flex items-center space-x-8">
@@ -372,11 +375,13 @@ const Footer = () => {
     <footer className="py-12 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#09090b]">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-5 gap-8">
         <div className="col-span-2">
-          <div className="flex items-center space-x-2 mb-4">
-            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
-              <Zap className="h-3 w-3 text-white" fill="currentColor" />
+          <div className="flex items-center space-x-2 mb-6">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 shadow-sm flex-shrink-0">
+              <ShieldAlert className="h-5 w-5 text-white" />
             </div>
-            <span className="font-bold text-lg tracking-tight dark:text-white text-slate-900">ATA</span>
+            <span className="font-bold text-xl tracking-tight dark:text-white text-slate-900">
+              Autonomous Testing Agent
+            </span>
           </div>
           <p className="text-sm text-slate-500 dark:text-slate-400 max-w-xs mb-6">
             Autonomous QA testing infrastructure for teams that move fast.

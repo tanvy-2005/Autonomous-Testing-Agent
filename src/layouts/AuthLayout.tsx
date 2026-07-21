@@ -55,11 +55,12 @@ export default function AuthLayout() {
         {/* Content */}
         <div className="relative z-10 flex flex-col h-full justify-center w-full max-w-lg mx-auto">
           <div className="mb-6 flex items-center space-x-3">
-            {isDark ? (
-              <img src="/logo-dark.png" alt="ATA Logo" className="h-10 object-contain" />
-            ) : (
-              <img src="/logo-light.png" alt="ATA Logo" className="h-10 object-contain" />
-            )}
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/20 flex-shrink-0">
+              <ShieldAlert className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold tracking-tight">Autonomous Testing Agent</h2>
+            </div>
           </div>
 
           <div className="space-y-4 w-full">
@@ -109,11 +110,10 @@ export default function AuthLayout() {
         {/* Header containing Logo (mobile) & Theme Toggle */}
         <div className="flex items-center justify-between p-4 lg:p-6 relative z-20">
           <div className="lg:hidden flex items-center space-x-2">
-            {isDark ? (
-              <img src="/logo-dark.png" alt="ATA Logo" className="h-7 object-contain" />
-            ) : (
-              <img src="/logo-light.png" alt="ATA Logo" className="h-7 object-contain" />
-            )}
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 shadow-sm flex-shrink-0">
+              <ShieldAlert className="h-4 w-4 text-white" />
+            </div>
+            <span className="font-bold text-base tracking-tight truncate">ATA</span>
           </div>
           <div className="ml-auto">
             <Button
