@@ -61,14 +61,6 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
           <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-full">
             {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </Button>
-          <Link to="/login" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-white transition-colors">
-            Sign In
-          </Link>
-          <Link to="/signup">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-5 h-9 text-sm font-medium transition-all shadow-[0_0_15px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]">
-              Get Started
-            </Button>
-          </Link>
         </div>
 
         <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -90,12 +82,6 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
                   {item}
                 </a>
               ))}
-              <div className="pt-4 border-t border-black/5 dark:border-white/10 flex flex-col space-y-4">
-                <Link to="/login" className="text-sm font-medium text-slate-600 dark:text-slate-300">Sign In</Link>
-                <Link to="/signup">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">Get Started</Button>
-                </Link>
-              </div>
             </div>
           </motion.div>
         )}
