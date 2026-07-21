@@ -130,12 +130,6 @@ export default function Login() {
         <Button className="w-full h-9 bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-500/20 transition-all text-xs font-semibold">
           Sign In
         </Button>
-        <div className={`text-center text-[11px] mt-4 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-          Don't have an account?{" "}
-          <Link to="/signup" className={`font-medium hover:underline ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
-            Sign Up
-          </Link>
-        </div>
       </div>
     </div>
   );
