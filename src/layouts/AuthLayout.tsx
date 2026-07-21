@@ -54,7 +54,7 @@ export default function AuthLayout() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col h-full justify-center">
+        <div className="relative z-10 flex flex-col h-full justify-center w-full max-w-lg mx-auto">
           <div className="mb-6 flex items-center space-x-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-blue-500/20">
               <Bot className="h-5 w-5 text-white" />
@@ -65,7 +65,7 @@ export default function AuthLayout() {
             </div>
           </div>
 
-          <div className="space-y-4 max-w-md">
+          <div className="space-y-4 w-full">
             <h1 className={`text-3xl xl:text-4xl font-bold tracking-tight leading-[1.15] ${isDark ? 'text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-300' : 'text-slate-800'}`}>
               Test. Detect. Fix. Automatically.
             </h1>
@@ -74,7 +74,7 @@ export default function AuthLayout() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-3 max-w-md">
+          <div className="mt-8 grid grid-cols-1 gap-3 w-full">
             {features.map((feature, i) => (
               <div
                 key={i}
@@ -100,7 +100,7 @@ export default function AuthLayout() {
         </div>
 
         {/* Footer */}
-        <div className="relative z-10 mt-auto pt-6">
+        <div className="relative z-10 mt-auto pt-6 w-full max-w-lg mx-auto">
           <p className={`text-xs font-medium ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
             Trusted by developers to automate software quality assurance.
           </p>
