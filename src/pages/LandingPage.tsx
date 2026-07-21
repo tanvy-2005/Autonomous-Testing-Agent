@@ -143,9 +143,6 @@ const Hero = () => {
                 Start Testing Free <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Button variant="outline" className="h-12 px-8 rounded-full font-semibold text-base dark:border-white/20 border-slate-300 dark:hover:bg-white/5 hover:bg-slate-100 transition-all hover:-translate-y-1">
-              <PlayCircle className="mr-2 h-5 w-5" /> Watch Demo
-            </Button>
           </motion.div>
         </motion.div>
 
@@ -391,9 +388,6 @@ const CTA = () => {
               Start Testing Free
             </Button>
           </Link>
-          <Button variant="outline" className="h-14 px-10 rounded-full font-bold text-lg dark:border-white/20 border-slate-300 dark:hover:bg-white/5 hover:bg-slate-100 transition-all hover:scale-105">
-            Book Demo
-          </Button>
         </motion.div>
       </div>
     </section>
