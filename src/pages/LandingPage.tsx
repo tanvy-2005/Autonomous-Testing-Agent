@@ -41,11 +41,12 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          {theme === "dark" ? (
-            <img src="/logo-dark.png" alt="ATA Logo" className="h-8 object-contain" />
-          ) : (
-            <img src="/logo-light.png" alt="ATA Logo" className="h-8 object-contain" />
-          )}
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 shadow-sm flex-shrink-0">
+            <ShieldAlert className="h-5 w-5 text-white" />
+          </div>
+          <span className="font-bold text-lg tracking-tight dark:text-white text-slate-900 hidden sm:inline-block">
+            Autonomous Testing Agent
+          </span>
         </div>
 
         <nav className="hidden md:flex items-center space-x-8">
@@ -399,8 +400,12 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-5 gap-8 mb-16">
         <div className="col-span-2">
           <div className="flex items-center space-x-2 mb-6">
-            <img src="/logo-light.png" alt="ATA Logo" className="dark:hidden h-8 object-contain" />
-            <img src="/logo-dark.png" alt="ATA Logo" className="hidden dark:block h-8 object-contain" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 shadow-sm flex-shrink-0">
+              <ShieldAlert className="h-5 w-5 text-white" />
+            </div>
+            <span className="font-bold text-xl tracking-tight dark:text-white text-slate-900">
+              Autonomous Testing Agent
+            </span>
           </div>
           <p className="dark:text-slate-400 text-slate-600 text-sm max-w-xs">
             The next-generation AI developer platform for autonomous QA testing and bug resolution.
