@@ -3,16 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowRight,
   Menu,
   X,
   Moon,
   Sun,
-  ShieldCheck,
   CheckCircle2,
-  GitPullRequest,
   Zap,
-  LayoutDashboard,
   SearchCode,
   Activity,
   ShieldAlert
