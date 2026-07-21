@@ -247,11 +247,11 @@ const Logos = () => {
         <p className="text-sm font-medium text-slate-400 mb-8 uppercase tracking-widest">Trusted by elite engineering teams</p>
         <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-60 grayscale dark:invert">
           {/* Simple text placeholders for logos, looking extremely clean */}
-          <span className="text-xl font-bold font-serif tracking-tight">Acme</span>
+          <span className="text-xl font-bold tracking-tight">Acme</span>
           <span className="text-xl font-black tracking-tighter">GlobalTech</span>
           <span className="text-xl font-semibold">StarkInd</span>
           <span className="text-xl font-medium tracking-wide">DataFlow</span>
-          <span className="text-xl font-bold font-mono">/dev/null</span>
+          <span className="text-xl font-bold">/dev/null</span>
         </div>
       </div>
     </section>
