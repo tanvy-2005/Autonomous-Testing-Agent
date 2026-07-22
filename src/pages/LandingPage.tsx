@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Menu,
   X,
@@ -22,6 +23,7 @@ import {
 const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -68,14 +70,22 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
           >
             {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </button>
-          <Link to="/login" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
-            Log in
-          </Link>
-          <Link to="/signup">
-            <Button className="h-10 px-6 rounded-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 font-semibold text-sm shadow-lg shadow-slate-900/20 dark:shadow-white/10 transition-all hover:scale-105 active:scale-95">
-              Get Started
-            </Button>
-          </Link>
+          {user ? (
+            <span className="text-sm font-semibold text-slate-600 dark:text-slate-300 mr-2">
+              Welcome back, <br className="hidden" />{user.name.split(' ')[0]}
+            </span>
+          ) : (
+            <>
+              <Link to="/login" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                Log in
+              </Link>
+              <Link to="/signup">
+                <Button className="h-10 px-6 rounded-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 font-semibold text-sm shadow-lg shadow-slate-900/20 dark:shadow-white/10 transition-all hover:scale-105 active:scale-95">
+                  Get Started
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         <button className="md:hidden p-2 text-slate-600 dark:text-slate-300" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -98,16 +108,24 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
                 </a>
               ))}
               <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col space-y-3">
-                <Link to="/login">
-                  <Button variant="outline" className="w-full h-11 rounded-xl font-semibold">
-                    Log in
-                  </Button>
-                </Link>
-                <Link to="/signup">
-                  <Button className="w-full h-11 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
-                    Get Started
-                  </Button>
-                </Link>
+                {user ? (
+                  <div className="text-base font-semibold text-slate-700 dark:text-slate-200 p-2">
+                    Welcome back, {user.name}
+                  </div>
+                ) : (
+                  <>
+                    <Link to="/login">
+                      <Button variant="outline" className="w-full h-11 rounded-xl font-semibold">
+                        Log in
+                      </Button>
+                    </Link>
+                    <Link to="/signup">
+                      <Button className="w-full h-11 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
+                        Get Started
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </motion.div>
@@ -165,9 +183,9 @@ const Hero = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
         >
-          <Link to="/signup" className="w-full sm:w-auto">
+          <Link to={user ? "/dashboard" : "/signup"} className="w-full sm:w-auto">
             <Button className="w-full h-14 px-8 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-xl shadow-indigo-600/30 transition-all hover:scale-105 active:scale-95 group">
-              Get Started
+              {user ? "Go to Dashboard" : "Get Started"}
               <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>

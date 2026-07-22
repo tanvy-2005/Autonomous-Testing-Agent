@@ -36,6 +36,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 const NAV_ITEMS = [
   { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
@@ -68,6 +69,7 @@ interface SidebarProps {
 
 export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleTheme, isMobile }: SidebarProps) {
   const location = useLocation();
+  const { user, logout } = useAuth();
   const [openProject, setOpenProject] = useState(false);
   const [activeProject, setActiveProject] = useState(PROJECTS[0]);
 
@@ -363,8 +365,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleThem
               )}
             >
               <Avatar className={cn("shrink-0", isCollapsed ? "h-8 w-8" : "h-9 w-9 border border-slate-200 dark:border-slate-700")}>
-                <AvatarImage src="https://github.com/shadcn.png" alt="Tanvy Pandey" />
-                <AvatarFallback>TP</AvatarFallback>
+                <AvatarImage src={user?.avatar || "https://github.com/shadcn.png"} alt={user?.name || "User"} />
+                <AvatarFallback>{user?.name?.substring(0, 2).toUpperCase() || "U"}</AvatarFallback>
               </Avatar>
               
               <AnimatePresence>
@@ -375,8 +377,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleThem
                     exit={{ opacity: 0, width: 0 }}
                     className="ml-3 flex flex-col items-start overflow-hidden whitespace-nowrap"
                   >
-                    <span className="text-sm font-semibold text-slate-900 dark:text-white leading-tight">Tanvy Pandey</span>
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400">Frontend Developer</span>
+                    <span className="text-sm font-semibold text-slate-900 dark:text-white leading-tight">{user?.name || "User"}</span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400">{user?.email || "Frontend Developer"}</span>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -394,7 +396,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleThem
               <span>Account Settings</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/10">
+            <DropdownMenuItem 
+              className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/10"
+              onClick={() => logout()}
+            >
               <LogOut className="mr-2 h-4 w-4" />
               <span>Logout</span>
             </DropdownMenuItem>
