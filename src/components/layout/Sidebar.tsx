@@ -60,6 +60,13 @@ interface SidebarProps {
   isMobile?: boolean;
 }
 
+const getInitials = (name?: string) => {
+  if (!name) return "U";
+  const parts = name.split(" ");
+  if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  return name.substring(0, 2).toUpperCase();
+};
+
 export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleTheme, isMobile }: SidebarProps) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -321,59 +328,76 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleThem
         </div>
 
         {/* User Profile */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button 
-              variant="ghost" 
-              className={cn(
-                "w-full bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all",
-                isCollapsed ? "h-10 px-0 justify-center" : "h-14 px-2 justify-start"
-              )}
-            >
-              <Avatar className={cn("shrink-0", isCollapsed ? "h-8 w-8" : "h-9 w-9 border border-slate-200 dark:border-slate-700")}>
-                <AvatarImage src={user?.avatar || "https://github.com/shadcn.png"} alt={user?.name || "User"} />
-                <AvatarFallback>{user?.name?.substring(0, 2).toUpperCase() || "U"}</AvatarFallback>
-              </Avatar>
-              
-              <AnimatePresence>
-                {!isCollapsed && (
-                  <motion.div
-                    initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: "auto" }}
-                    exit={{ opacity: 0, width: 0 }}
-                    className="ml-3 flex flex-col items-start overflow-hidden whitespace-nowrap"
-                  >
-                    <span className="text-sm font-semibold text-slate-900 dark:text-white leading-tight">{user?.name || "User"}</span>
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400">{user?.email || "Frontend Developer"}</span>
-                  </motion.div>
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="ghost" 
+                className={cn(
+                  "flex-1 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all",
+                  isCollapsed ? "h-10 px-0 justify-center w-full" : "h-14 px-2 justify-start"
                 )}
-              </AnimatePresence>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56" side="right" sideOffset={16}>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
-              <User className="mr-2 h-4 w-4" />
-              <span>My Profile</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Account Settings</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem 
-              className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/10"
+              >
+                <Avatar className={cn("shrink-0", isCollapsed ? "h-8 w-8" : "h-9 w-9 border border-slate-200 dark:border-slate-700")}>
+                  <AvatarImage src={user?.avatar} alt={user?.name || "User"} />
+                  <AvatarFallback className="bg-blue-100 text-blue-700 font-semibold">{getInitials(user?.name)}</AvatarFallback>
+                </Avatar>
+                
+                <AnimatePresence>
+                  {!isCollapsed && (
+                    <motion.div
+                      initial={{ opacity: 0, width: 0 }}
+                      animate={{ opacity: 1, width: "auto" }}
+                      exit={{ opacity: 0, width: 0 }}
+                      className="ml-3 flex flex-col items-start overflow-hidden whitespace-nowrap"
+                    >
+                      <span className="text-sm font-semibold text-slate-900 dark:text-white leading-tight">{user?.name || "User"}</span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">{user?.email || "Frontend Developer"}</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56" side="right" sideOffset={16}>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="cursor-pointer">
+                <User className="mr-2 h-4 w-4" />
+                <span>My Profile</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Account Settings</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem 
+                className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/10"
+                onClick={() => {
+                  logout();
+                  navigate('/login');
+                }}
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Logout</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {!isCollapsed && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="shrink-0 h-9 w-9 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-full transition-colors"
               onClick={() => {
                 logout();
                 navigate('/login');
               }}
+              title="Logout"
             >
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Logout</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <LogOut className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
 
       </div>
     </motion.aside>

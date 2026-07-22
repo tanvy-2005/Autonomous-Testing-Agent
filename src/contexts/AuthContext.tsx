@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // TODO: implement real backend login
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        const mockUser = { id: '1', name: 'Tanvy', email, avatar: 'https://github.com/shadcn.png' };
+        const mockUser = { id: '1', name: 'Tanvy Pandey', email };
         const mockToken = 'mock-jwt-token';
         
         setUser(mockUser);
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // TODO: implement google login
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        const mockUser = { id: '1', name: 'Tanvy (Google)', email: 'user@google.com', avatar: 'https://github.com/shadcn.png' };
+        const mockUser = { id: '1', name: 'Tanvy (Google)', email: 'user@google.com', avatar: 'https://lh3.googleusercontent.com/a/default-user=s64-c' };
         setUser(mockUser);
         setToken('mock-google-token');
         localStorage.setItem('user', JSON.stringify(mockUser));
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // TODO: implement github login
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        const mockUser = { id: '1', name: 'Tanvy (GitHub)', email: 'user@github.com', avatar: 'https://github.com/shadcn.png' };
+        const mockUser = { id: '1', name: 'Tanvy (GitHub)', email: 'user@github.com', avatar: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png' };
         setUser(mockUser);
         setToken('mock-github-token');
         localStorage.setItem('user', JSON.stringify(mockUser));
