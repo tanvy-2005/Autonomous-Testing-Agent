@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const signup = async (name: string, email: string, _password: string) => {
+  const signup = async (_name: string, _email: string, _password: string) => {
     // TODO: implement real backend signup
     return new Promise<void>((resolve) => {
       setTimeout(() => {

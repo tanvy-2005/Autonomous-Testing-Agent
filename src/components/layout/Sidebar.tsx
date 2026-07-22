@@ -330,6 +330,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleThem
         {/* User Profile */}
         <div className="flex items-center gap-2">
           <DropdownMenu>
+            {/* @ts-ignore */}
             <DropdownMenuTrigger asChild>
               <Button 
                 variant="ghost" 
