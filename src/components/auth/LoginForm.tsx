@@ -5,20 +5,24 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/contexts/AuthContext";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 
 interface LoginFormProps {
   isDark: boolean;
 }
 
 export function LoginForm({ isDark }: LoginFormProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(() => sessionStorage.getItem('auth_email') || "");
+  const [password, setPassword] = useState(() => sessionStorage.getItem('auth_password') || "");
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const { login, loading: authLoading } = useAuth();
   const [localLoading, setLocalLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleEmailChange = (val: string) => { setEmail(val); sessionStorage.setItem('auth_email', val); if (error) setError(""); };
+  const handlePasswordChange = (val: string) => { setPassword(val); sessionStorage.setItem('auth_password', val); if (error) setError(""); };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +69,7 @@ export function LoginForm({ isDark }: LoginFormProps) {
           id="signin-email"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => handleEmailChange(e.target.value)}
           placeholder="name@example.com"
           className={`h-9 text-xs border transition-all ${
             isDark 
@@ -73,6 +77,7 @@ export function LoginForm({ isDark }: LoginFormProps) {
               : 'bg-white/50 border-black/10 focus-visible:ring-blue-500 placeholder:text-slate-400'
           }`}
           disabled={isLoading}
+          autoComplete="email"
         />
       </div>
       <div className="space-y-1.5">
@@ -82,18 +87,29 @@ export function LoginForm({ isDark }: LoginFormProps) {
             Forgot password?
           </Link>
         </div>
-        <Input
-          id="signin-password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={`h-9 text-xs border transition-all ${
-            isDark 
-              ? 'bg-black/20 border-white/10 focus-visible:ring-blue-500' 
-              : 'bg-white/50 border-black/10 focus-visible:ring-blue-500'
-          }`}
-          disabled={isLoading}
-        />
+        <div className="relative">
+          <Input
+            id="signin-password"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => handlePasswordChange(e.target.value)}
+            className={`h-9 pr-9 text-xs border transition-all ${
+              isDark 
+                ? 'bg-black/20 border-white/10 focus-visible:ring-blue-500' 
+                : 'bg-white/50 border-black/10 focus-visible:ring-blue-500'
+            }`}
+            disabled={isLoading}
+            autoComplete="current-password"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+            tabIndex={-1}
+          >
+            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          </button>
+        </div>
       </div>
       <div className="flex items-center space-x-2 pt-0.5 pb-2">
         <Checkbox 

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import { PasswordStrength } from "./PasswordStrength";
 
 interface SignupFormProps {
@@ -12,15 +12,22 @@ interface SignupFormProps {
 }
 
 export function SignupForm({ isDark }: SignupFormProps) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState(() => sessionStorage.getItem('auth_name') || "");
+  const [email, setEmail] = useState(() => sessionStorage.getItem('auth_email') || "");
+  const [password, setPassword] = useState(() => sessionStorage.getItem('auth_password') || "");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signup, loading: authLoading } = useAuth();
   const [localLoading, setLocalLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleNameChange = (val: string) => { setName(val); sessionStorage.setItem('auth_name', val); if (error) setError(""); };
+  const handleEmailChange = (val: string) => { setEmail(val); sessionStorage.setItem('auth_email', val); if (error) setError(""); };
+  const handlePasswordChange = (val: string) => { setPassword(val); sessionStorage.setItem('auth_password', val); if (error) setError(""); };
+  const handleConfirmPasswordChange = (val: string) => { setConfirmPassword(val); if (error) setError(""); };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,7 +86,7 @@ export function SignupForm({ isDark }: SignupFormProps) {
           id="signup-name"
           type="text"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => handleNameChange(e.target.value)}
           placeholder="John Doe"
           className={`h-9 text-xs border transition-all ${
             isDark 
@@ -87,6 +94,7 @@ export function SignupForm({ isDark }: SignupFormProps) {
               : 'bg-white/50 border-black/10 focus-visible:ring-blue-500 placeholder:text-slate-400'
           }`}
           disabled={isLoading}
+          autoComplete="name"
         />
       </div>
       <div className="space-y-1.5">
@@ -95,7 +103,7 @@ export function SignupForm({ isDark }: SignupFormProps) {
           id="signup-email"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => handleEmailChange(e.target.value)}
           placeholder="name@company.com"
           className={`h-9 text-xs border transition-all ${
             isDark 
@@ -103,38 +111,61 @@ export function SignupForm({ isDark }: SignupFormProps) {
               : 'bg-white/50 border-black/10 focus-visible:ring-blue-500 placeholder:text-slate-400'
           }`}
           disabled={isLoading}
+          autoComplete="email"
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
           <Label htmlFor="signup-password" className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Password</Label>
-          <Input
-            id="signup-password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={`h-9 text-xs border transition-all ${
-              isDark 
-                ? 'bg-black/20 border-white/10 focus-visible:ring-blue-500' 
-                : 'bg-white/50 border-black/10 focus-visible:ring-blue-500'
-            }`}
-            disabled={isLoading}
-          />
+          <div className="relative">
+            <Input
+              id="signup-password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => handlePasswordChange(e.target.value)}
+              className={`h-9 pr-9 text-xs border transition-all ${
+                isDark 
+                  ? 'bg-black/20 border-white/10 focus-visible:ring-blue-500' 
+                  : 'bg-white/50 border-black/10 focus-visible:ring-blue-500'
+              }`}
+              disabled={isLoading}
+              autoComplete="new-password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+            </button>
+          </div>
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="signup-confirm" className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Confirm Password</Label>
-          <Input
-            id="signup-confirm"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className={`h-9 text-xs border transition-all ${
-              isDark 
-                ? 'bg-black/20 border-white/10 focus-visible:ring-blue-500' 
-                : 'bg-white/50 border-black/10 focus-visible:ring-blue-500'
-            }`}
-            disabled={isLoading}
-          />
+          <div className="relative">
+            <Input
+              id="signup-confirm"
+              type={showConfirmPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => handleConfirmPasswordChange(e.target.value)}
+              className={`h-9 pr-9 text-xs border transition-all ${
+                isDark 
+                  ? 'bg-black/20 border-white/10 focus-visible:ring-blue-500' 
+                  : 'bg-white/50 border-black/10 focus-visible:ring-blue-500'
+              }`}
+              disabled={isLoading}
+              autoComplete="new-password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+              tabIndex={-1}
+            >
+              {showConfirmPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+            </button>
+          </div>
         </div>
       </div>
       {password && <PasswordStrength password={password} isDark={isDark} />}
