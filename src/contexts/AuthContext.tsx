@@ -77,13 +77,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // TODO: implement real backend signup
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        const mockUser = { id: '1', name, email, avatar: 'https://github.com/shadcn.png' };
-        const mockToken = 'mock-jwt-token';
-        
-        setUser(mockUser);
-        setToken(mockToken);
-        localStorage.setItem('user', JSON.stringify(mockUser));
-        localStorage.setItem('token', mockToken);
         resolve();
       }, 1000);
     });
