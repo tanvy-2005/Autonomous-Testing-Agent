@@ -50,5 +50,21 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "~6.0.2",
     "vite": "^8.1.1"
-  }
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanvy-2005/Autonomous-Testing-Agent.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tanvy-2005/Autonomous-Testing-Agent/issues"
+  },
+  "homepage": "https://github.com/tanvy-2005/Autonomous-Testing-Agent#readme"
 }
