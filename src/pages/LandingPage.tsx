@@ -151,17 +151,7 @@ const Hero = () => {
       </div>
 
       <div className="max-w-5xl mx-auto text-center relative z-10 flex flex-col items-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
-          <Badge variant="secondary" className="px-4 py-1.5 space-x-2 bg-indigo-100 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-500/20 shadow-sm text-sm rounded-full">
-            <Sparkles className="w-4 h-4" />
-            <span>Introducing ATA 2.0</span>
-          </Badge>
-        </motion.div>
+
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -192,14 +182,10 @@ const Hero = () => {
         >
           <Link to={user ? "/dashboard" : "/signup"} className="w-full sm:w-auto">
             <Button className="w-full h-14 px-8 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-xl shadow-indigo-600/30 transition-all hover:scale-105 active:scale-95 group">
-              {user ? "Go to Dashboard" : "Get Started"}
+              Get Started
               <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
-          <Button variant="outline" className="w-full sm:w-auto h-14 px-8 rounded-full font-bold text-base bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 transition-all text-slate-700 dark:text-slate-200">
-            <Code2 className="mr-2 w-5 h-5" />
-            View Documentation
-          </Button>
         </motion.div>
       </div>
 
