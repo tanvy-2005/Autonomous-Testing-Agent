@@ -6,12 +6,10 @@ import {
   FolderKanban,
   FlaskConical,
   FileText,
-  BarChart3,
   Settings,
   PlusCircle,
   ShieldAlert,
   ChevronDown,
-  Globe,
   SunMoon,
   LogOut,
   User,
@@ -19,9 +17,10 @@ import {
   Moon,
   PanelLeftClose,
   PanelLeftOpen,
+  Server,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -41,22 +40,16 @@ import { useAuth } from "@/contexts/AuthContext";
 const NAV_ITEMS = [
   { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
   { name: "Projects", path: "/dashboard/projects", icon: FolderKanban },
-  { name: "Test Sessions", path: "/dashboard/sessions", icon: FlaskConical },
+  { name: "Executions", path: "/dashboard/executions", icon: FlaskConical },
   { name: "Reports", path: "/dashboard/reports", icon: FileText },
-  { name: "Analytics", path: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Agents", path: "/dashboard/agents", icon: Server },
   { name: "Settings", path: "/dashboard/settings", icon: Settings },
 ];
 
-const RECENT_SESSIONS = [
-  { name: "mywebsite.com", icon: Globe, path: "/dashboard/reports/1" },
-  { name: "admin-panel.com", icon: Globe, path: "/dashboard/reports/2" },
-  { name: "landingpage.ai", icon: Globe, path: "/dashboard/reports/3" },
-];
+const RECENT_SESSIONS: { name: string; icon: any; path: string }[] = [];
 
 const PROJECTS = [
-  { value: "default", label: "Default Project" },
-  { value: "ecommerce", label: "E-Commerce App" },
-  { value: "internal", label: "Internal Dashboard" },
+  { value: "default", label: "No Projects" },
 ];
 
 interface SidebarProps {
@@ -186,86 +179,72 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleThem
 
           {/* New Scan CTA */}
           <div className="px-2 w-full">
-            <TooltipProvider delay={0}>
-              <Tooltip>
-                <TooltipTrigger render={<div />}>
-                  <Button
-                    className={cn(
-                      "w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white shadow-md shadow-blue-500/20 hover:shadow-blue-500/30 transition-all hover:-translate-y-[1px]",
-                      isCollapsed ? "px-0 justify-center h-10" : "justify-start px-4 h-10"
-                    )}
-                  >
-                    <PlusCircle className={cn("shrink-0", !isCollapsed && "mr-2")} size={isCollapsed ? 20 : 18} />
-                    {!isCollapsed && <span className="font-semibold whitespace-nowrap">New Scan</span>}
-                  </Button>
-                </TooltipTrigger>
-                {isCollapsed && <TooltipContent side="right">New Scan</TooltipContent>}
-              </Tooltip>
-            </TooltipProvider>
+            <Button
+              className={cn(
+                "w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white shadow-md shadow-blue-500/20 hover:shadow-blue-500/30 transition-all hover:-translate-y-[1px]",
+                isCollapsed ? "px-0 justify-center h-10" : "justify-start px-4 h-10"
+              )}
+            >
+              <PlusCircle className={cn("shrink-0", !isCollapsed && "mr-2")} size={isCollapsed ? 20 : 18} />
+              {!isCollapsed && <span className="font-semibold whitespace-nowrap">New Scan</span>}
+            </Button>
           </div>
 
           <Separator className="dark:bg-slate-800 bg-slate-200 w-[calc(100%-16px)] mx-auto" />
 
           {/* Navigation Links */}
           <nav className="flex flex-col gap-1 px-2 w-full">
-            <TooltipProvider delay={0}>
-              {NAV_ITEMS.map((item) => {
-                const isActive = activePath.startsWith(item.path);
-                
-                return (
-                  <Tooltip key={item.name}>
-                    <TooltipTrigger render={<div />}>
-                      <Link to={item.path} className="w-full">
-                        <motion.div
-                          initial={false}
-                          animate={{
-                            backgroundColor: isActive 
-                              ? theme === 'dark' ? "rgba(59, 130, 246, 0.15)" : "rgba(59, 130, 246, 0.1)" 
-                              : "transparent"
-                          }}
-                          className={cn(
-                            "group relative flex items-center h-10 rounded-lg transition-all duration-200 ease-out cursor-pointer",
-                            isCollapsed ? "justify-center px-0" : "px-3",
-                            !isActive && "hover:bg-slate-100 dark:hover:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200",
-                            isActive && "text-blue-700 dark:text-blue-400 font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]"
-                          )}
+            {NAV_ITEMS.map((item) => {
+              const isActive = activePath.startsWith(item.path);
+              
+              return (
+                <Link key={item.name} to={item.path} className="w-full">
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      backgroundColor: isActive 
+                        ? theme === 'dark' ? "rgba(59, 130, 246, 0.15)" : "rgba(59, 130, 246, 0.1)" 
+                        : "transparent"
+                    }}
+                    className={cn(
+                      "group relative flex items-center h-10 rounded-lg transition-all duration-200 ease-out cursor-pointer",
+                      isCollapsed ? "justify-center px-0" : "px-3",
+                      !isActive && "hover:bg-slate-100 dark:hover:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200",
+                      isActive && "text-blue-700 dark:text-blue-400 font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]"
+                    )}
+                  >
+                    {/* Active Indicator Line */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeNavIndicator"
+                        className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-blue-600 dark:bg-blue-500 shadow-[0_0_10px_rgba(37,99,235,0.5)]"
+                      />
+                    )}
+                    
+                    <item.icon 
+                      size={isCollapsed ? 20 : 18} 
+                      className={cn(
+                        "shrink-0 transition-transform duration-200 group-hover:translate-x-[2px]",
+                        isActive && "scale-110"
+                      )} 
+                    />
+                    
+                    <AnimatePresence>
+                      {!isCollapsed && (
+                        <motion.span
+                          initial={{ opacity: 0, width: 0 }}
+                          animate={{ opacity: 1, width: "auto" }}
+                          exit={{ opacity: 0, width: 0 }}
+                          className="ml-3 whitespace-nowrap overflow-hidden"
                         >
-                          {/* Active Indicator Line */}
-                          {isActive && (
-                            <motion.div
-                              layoutId="activeNavIndicator"
-                              className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-blue-600 dark:bg-blue-500 shadow-[0_0_10px_rgba(37,99,235,0.5)]"
-                            />
-                          )}
-                          
-                          <item.icon 
-                            size={isCollapsed ? 20 : 18} 
-                            className={cn(
-                              "shrink-0 transition-transform duration-200 group-hover:translate-x-[2px]",
-                              isActive && "scale-110"
-                            )} 
-                          />
-                          
-                          <AnimatePresence>
-                            {!isCollapsed && (
-                              <motion.span
-                                initial={{ opacity: 0, width: 0 }}
-                                animate={{ opacity: 1, width: "auto" }}
-                                exit={{ opacity: 0, width: 0 }}
-                                className="ml-3 whitespace-nowrap overflow-hidden"
-                              >
-                                {item.name}
-                              </motion.span>
-                            )}
-                          </AnimatePresence>
-                        </motion.div>
-                      </Link>
-                    </TooltipTrigger>
-                    {isCollapsed && <TooltipContent side="right">{item.name}</TooltipContent>}
-                  </Tooltip>
-                );
-              })}
-            </TooltipProvider>
+                          {item.name}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                </Link>
+              );
+            })}
           </nav>
 
           <Separator className="dark:bg-slate-800 bg-slate-200 w-[calc(100%-16px)] mx-auto" />
@@ -287,36 +266,29 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleThem
               )}
             </AnimatePresence>
             
-            <TooltipProvider delay={0}>
-              {RECENT_SESSIONS.map((session) => (
-                <Tooltip key={session.name}>
-                  <TooltipTrigger render={<div />}>
-                    <Link to={session.path} className="w-full">
-                      <div className={cn(
-                        "group flex items-center h-8 rounded-md transition-colors cursor-pointer text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200",
-                        isCollapsed ? "justify-center px-0" : "px-3"
-                      )}>
-                        <session.icon size={isCollapsed ? 18 : 14} className="shrink-0 transition-transform group-hover:scale-110" />
-                        
-                        <AnimatePresence>
-                          {!isCollapsed && (
-                            <motion.span
-                              initial={{ opacity: 0, width: 0 }}
-                              animate={{ opacity: 1, width: "auto" }}
-                              exit={{ opacity: 0, width: 0 }}
-                              className="ml-3 text-sm truncate"
-                            >
-                              {session.name}
-                            </motion.span>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </Link>
-                  </TooltipTrigger>
-                  {isCollapsed && <TooltipContent side="right">{session.name}</TooltipContent>}
-                </Tooltip>
-              ))}
-            </TooltipProvider>
+            {RECENT_SESSIONS.map((session) => (
+              <Link key={session.name} to={session.path} className="w-full">
+                <div className={cn(
+                  "group flex items-center h-8 rounded-md transition-colors cursor-pointer text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200",
+                  isCollapsed ? "justify-center px-0" : "px-3"
+                )}>
+                  <session.icon size={isCollapsed ? 18 : 14} className="shrink-0 transition-transform group-hover:scale-110" />
+                  
+                  <AnimatePresence>
+                    {!isCollapsed && (
+                      <motion.span
+                        initial={{ opacity: 0, width: 0 }}
+                        animate={{ opacity: 1, width: "auto" }}
+                        exit={{ opacity: 0, width: 0 }}
+                        className="ml-3 text-sm truncate"
+                      >
+                        {session.name}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </ScrollArea>
@@ -326,32 +298,25 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleThem
         
         {/* Theme Toggle */}
         <div className={cn("flex", isCollapsed ? "justify-center" : "px-2")}>
-          <TooltipProvider delay={0}>
-            <Tooltip>
-              <TooltipTrigger render={<div />}>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className={cn(
-                    "text-slate-500 hover:text-slate-900 dark:hover:text-white rounded-full",
-                    !isCollapsed && "w-full justify-start px-2 h-9"
-                  )}
-                  onClick={toggleTheme}
-                >
-                  <motion.div
-                    initial={false}
-                    animate={{ rotate: theme === "dark" ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="shrink-0"
-                  >
-                    {theme === "dark" ? <SunMoon size={isCollapsed ? 20 : 18} /> : <Moon size={isCollapsed ? 20 : 18} />}
-                  </motion.div>
-                  {!isCollapsed && <span className="ml-3 text-sm font-medium">Switch Theme</span>}
-                </Button>
-              </TooltipTrigger>
-              {isCollapsed && <TooltipContent side="right">Switch Theme</TooltipContent>}
-            </Tooltip>
-          </TooltipProvider>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className={cn(
+              "text-slate-500 hover:text-slate-900 dark:hover:text-white rounded-full",
+              !isCollapsed && "w-full justify-start px-2 h-9"
+            )}
+            onClick={toggleTheme}
+          >
+            <motion.div
+              initial={false}
+              animate={{ rotate: theme === "dark" ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="shrink-0"
+            >
+              {theme === "dark" ? <SunMoon size={isCollapsed ? 20 : 18} /> : <Moon size={isCollapsed ? 20 : 18} />}
+            </motion.div>
+            {!isCollapsed && <span className="ml-3 text-sm font-medium">Switch Theme</span>}
+          </Button>
         </div>
 
         {/* User Profile */}
