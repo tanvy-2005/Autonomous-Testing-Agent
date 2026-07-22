@@ -15,7 +15,8 @@ import {
   ChevronRight,
   Sparkles,
   Play,
-  Code2
+  Code2,
+  Star
 } from "lucide-react";
 
 const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void }) => {
@@ -48,7 +49,7 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
         </div>
 
         <nav className="hidden md:flex items-center space-x-1 flex-1 justify-center">
-          {["Features", "How it Works", "Testimonials", "Pricing"].map((item) => (
+          {["Features", "How it Works", "Testimonials"].map((item) => (
             <a 
               key={item} 
               href={`#${item.toLowerCase().replace(' ', '-')}`} 
@@ -91,7 +92,7 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
             className="md:hidden absolute top-full left-0 right-0 bg-white/95 dark:bg-[#09090b]/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-2xl"
           >
             <div className="p-6 flex flex-col space-y-4">
-              {["Features", "How it Works", "Testimonials", "Pricing"].map((item) => (
+              {["Features", "How it Works", "Testimonials"].map((item) => (
                 <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-base font-semibold text-slate-700 dark:text-slate-200 p-2 hover:bg-slate-50 dark:hover:bg-white/5 rounded-lg">
                   {item}
                 </a>
@@ -104,7 +105,7 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
                 </Link>
                 <Link to="/signup">
                   <Button className="w-full h-11 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
-                    Get Started Free
+                    Get Started
                   </Button>
                 </Link>
               </div>
@@ -143,9 +144,9 @@ const Hero = () => {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1] mb-8"
         >
-          QA Testing, <br className="hidden md:block"/>
+          Stop Writing Tests. <br className="hidden md:block"/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-            Solved by AI.
+            Start Shipping Features.
           </span>
         </motion.h1>
 
@@ -166,13 +167,13 @@ const Hero = () => {
         >
           <Link to="/signup" className="w-full sm:w-auto">
             <Button className="w-full h-14 px-8 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-xl shadow-indigo-600/30 transition-all hover:scale-105 active:scale-95 group">
-              Start Building Free
+              Get Started
               <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
           <Button variant="outline" className="w-full sm:w-auto h-14 px-8 rounded-full font-bold text-base bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 transition-all text-slate-700 dark:text-slate-200">
-            <Play className="mr-2 w-5 h-5" />
-            Watch Demo
+            <Code2 className="mr-2 w-5 h-5" />
+            View Documentation
           </Button>
         </motion.div>
       </div>
@@ -330,7 +331,7 @@ const Logos = () => {
 
 const FeaturesList = () => {
   return (
-    <section className="py-24 md:py-32 bg-white dark:bg-[#111113] relative overflow-hidden">
+    <section id="features" className="py-24 md:py-32 bg-white dark:bg-[#111113] relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.015] dark:opacity-[0.03] mix-blend-overlay"></div>
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -466,38 +467,86 @@ const FeaturesList = () => {
   );
 };
 
-const CTASection = () => {
+const HowItWorks = () => {
   return (
-    <section className="py-32 relative overflow-hidden bg-slate-900 dark:bg-[#09090b]">
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-[400px] bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 blur-[120px] rounded-full opacity-40 pointer-events-none"></div>
-      </div>
-      
-      <div className="max-w-4xl mx-auto px-6 text-center relative z-10 border border-white/10 bg-white/5 backdrop-blur-xl p-12 md:p-20 rounded-3xl shadow-2xl">
-        <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6">
-          Ready to automate <br/> your testing?
-        </h2>
-        <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
-          Join thousands of engineering teams who have eliminated manual QA and ship with 100% confidence.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link to="/signup" className="w-full sm:w-auto">
-            <Button className="w-full h-14 px-10 rounded-full bg-white text-slate-900 hover:bg-slate-100 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all">
-              Start Building Free
-            </Button>
-          </Link>
-          <Button variant="outline" className="w-full sm:w-auto h-14 px-10 rounded-full font-bold text-lg border-white/20 text-white hover:bg-white/10 transition-all">
-            Talk to Sales
-          </Button>
+    <section id="how-it-works" className="py-24 bg-slate-50 dark:bg-[#09090b] relative border-t border-slate-200/50 dark:border-white/5">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 text-sm font-semibold mb-6 border border-blue-200 dark:border-blue-500/20">
+            <Activity className="w-4 h-4" />
+            <span>Simple Process</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">How it works</h2>
+          <p className="text-lg text-slate-600 dark:text-slate-400">Three simple steps to automate your QA entirely.</p>
         </div>
-        <p className="mt-6 text-sm text-slate-400">
-          No credit card required. Free 14-day trial.
-        </p>
+        <div className="grid md:grid-cols-3 gap-8 relative">
+           <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-indigo-500/0 via-indigo-500/20 to-indigo-500/0"></div>
+           
+           {[
+             { step: "01", title: "Connect Repository", desc: "Link your GitHub or GitLab repo. ATA automatically detects your framework and environment." },
+             { step: "02", title: "AI Generation", desc: "Our engine maps your app's user flows and generates comprehensive E2E tests in Playwright or Cypress." },
+             { step: "03", title: "Continuous Testing", desc: "Tests run on every PR. If UI changes break a test, ATA auto-heals the selector and pushes a fix." }
+           ].map((item, i) => (
+             <motion.div 
+               key={i}
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true, margin: "-100px" }}
+               transition={{ delay: i * 0.2 }}
+               className="relative z-10 flex flex-col items-center text-center p-6"
+             >
+               <div className="w-24 h-24 rounded-full bg-white dark:bg-[#111113] border border-slate-200 dark:border-white/10 shadow-xl flex items-center justify-center mb-6 text-2xl font-black text-indigo-600 dark:text-indigo-400">
+                 {item.step}
+               </div>
+               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{item.title}</h3>
+               <p className="text-slate-600 dark:text-slate-400">{item.desc}</p>
+             </motion.div>
+           ))}
+        </div>
       </div>
     </section>
   );
 };
+
+const Testimonials = () => {
+  return (
+    <section id="testimonials" className="py-24 bg-white dark:bg-[#111113] border-y border-slate-200/50 dark:border-white/5">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">Loved by engineering teams</h2>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            { quote: "ATA caught a critical checkout bug that our manual QA missed right before Black Friday. It paid for itself in one day.", author: "Sarah Jenkins", role: "CTO @ TechFlow" },
+            { quote: "We deleted 10,000 lines of brittle Cypress tests. Now ATA just maintains them for us. It feels like magic.", author: "David Chen", role: "Lead SDET @ Acme Corp" },
+            { quote: "The self-healing feature alone saves my team 15 hours a week. We can finally focus on shipping features.", author: "Elena Rodriguez", role: "VPE @ StartupX" }
+          ].map((item, i) => (
+             <motion.div 
+               key={i}
+               initial={{ opacity: 0, scale: 0.95 }}
+               whileInView={{ opacity: 1, scale: 1 }}
+               viewport={{ once: true, margin: "-100px" }}
+               transition={{ delay: i * 0.1 }}
+               className="p-8 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 shadow-sm"
+             >
+               <div className="flex space-x-1 mb-6">
+                 {[1,2,3,4,5].map(star => <Star key={star} className="w-5 h-5 text-amber-500 fill-amber-500" />)}
+               </div>
+               <p className="text-slate-700 dark:text-slate-300 text-lg mb-8 font-medium leading-relaxed">"{item.quote}"</p>
+               <div>
+                 <div className="font-bold text-slate-900 dark:text-white">{item.author}</div>
+                 <div className="text-sm text-slate-500">{item.role}</div>
+               </div>
+             </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
+
 
 const Footer = () => {
   return (
@@ -526,7 +575,6 @@ const Footer = () => {
           <ul className="space-y-4 text-sm font-medium text-slate-600 dark:text-slate-400">
             <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Features</a></li>
             <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Integrations</a></li>
-            <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Pricing</a></li>
             <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Changelog</a></li>
           </ul>
         </div>
@@ -579,7 +627,8 @@ export default function LandingPage() {
         <Hero />
         <Logos />
         <FeaturesList />
-        <CTASection />
+        <HowItWorks />
+        <Testimonials />
       </main>
 
       <Footer />
