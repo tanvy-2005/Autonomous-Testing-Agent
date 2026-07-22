@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -62,6 +62,7 @@ interface SidebarProps {
 
 export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleTheme, isMobile }: SidebarProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [openProject, setOpenProject] = useState(false);
   const [activeProject, setActiveProject] = useState(PROJECTS[0]);
@@ -363,7 +364,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleThem
             <DropdownMenuSeparator />
             <DropdownMenuItem 
               className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/10"
-              onClick={() => logout()}
+              onClick={() => {
+                logout();
+                navigate('/login');
+              }}
             >
               <LogOut className="mr-2 h-4 w-4" />
               <span>Logout</span>
