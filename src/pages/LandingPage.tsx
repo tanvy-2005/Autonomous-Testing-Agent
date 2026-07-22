@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Menu,
   X,
@@ -22,6 +26,7 @@ import {
 const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -68,14 +73,22 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
           >
             {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </button>
-          <Link to="/login" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
-            Log in
-          </Link>
-          <Link to="/signup">
-            <Button className="h-10 px-6 rounded-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 font-semibold text-sm shadow-lg shadow-slate-900/20 dark:shadow-white/10 transition-all hover:scale-105 active:scale-95">
-              Get Started
-            </Button>
-          </Link>
+          {user ? (
+            <span className="text-sm font-semibold text-slate-600 dark:text-slate-300 mr-2">
+              Welcome back, <br className="hidden" />{user.name.split(' ')[0]}
+            </span>
+          ) : (
+            <>
+              <Link to="/login" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                Log in
+              </Link>
+              <Link to="/signup">
+                <Button className="h-10 px-6 rounded-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 font-semibold text-sm shadow-lg shadow-slate-900/20 dark:shadow-white/10 transition-all hover:scale-105 active:scale-95">
+                  Get Started
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         <button className="md:hidden p-2 text-slate-600 dark:text-slate-300" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -98,16 +111,24 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
                 </a>
               ))}
               <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col space-y-3">
-                <Link to="/login">
-                  <Button variant="outline" className="w-full h-11 rounded-xl font-semibold">
-                    Log in
-                  </Button>
-                </Link>
-                <Link to="/signup">
-                  <Button className="w-full h-11 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
-                    Get Started
-                  </Button>
-                </Link>
+                {user ? (
+                  <div className="text-base font-semibold text-slate-700 dark:text-slate-200 p-2">
+                    Welcome back, {user.name}
+                  </div>
+                ) : (
+                  <>
+                    <Link to="/login">
+                      <Button variant="outline" className="w-full h-11 rounded-xl font-semibold">
+                        Log in
+                      </Button>
+                    </Link>
+                    <Link to="/signup">
+                      <Button className="w-full h-11 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
+                        Get Started
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </motion.div>
@@ -118,6 +139,8 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
 };
 
 const Hero = () => {
+  const { user } = useAuth();
+
   return (
     <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-6 relative overflow-hidden bg-slate-50 dark:bg-[#09090b]">
       {/* Background gradients */}
@@ -132,10 +155,12 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-sm font-semibold mb-8 border border-indigo-200 dark:border-indigo-500/20 shadow-sm"
+          className="mb-8"
         >
-          <Sparkles className="w-4 h-4" />
-          <span>Introducing ATA 2.0</span>
+          <Badge variant="secondary" className="px-4 py-1.5 space-x-2 bg-indigo-100 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-500/20 shadow-sm text-sm rounded-full">
+            <Sparkles className="w-4 h-4" />
+            <span>Introducing ATA 2.0</span>
+          </Badge>
         </motion.div>
 
         <motion.h1
@@ -165,9 +190,9 @@ const Hero = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
         >
-          <Link to="/signup" className="w-full sm:w-auto">
+          <Link to={user ? "/dashboard" : "/signup"} className="w-full sm:w-auto">
             <Button className="w-full h-14 px-8 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-xl shadow-indigo-600/30 transition-all hover:scale-105 active:scale-95 group">
-              Get Started
+              {user ? "Go to Dashboard" : "Get Started"}
               <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
@@ -243,7 +268,7 @@ const Hero = () => {
                 <div>
                   <h2 className="text-3xl font-bold text-slate-900 dark:text-white flex items-center tracking-tight">
                     Checkout Process
-                    <span className="ml-4 px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 text-xs font-bold uppercase tracking-wider border border-rose-200 dark:border-rose-500/20">Failed</span>
+                    <Badge variant="destructive" className="ml-4 uppercase tracking-wider text-xs">Failed</Badge>
                   </h2>
                   <p className="text-slate-500 dark:text-slate-400 text-sm mt-2 flex items-center">
                     Failed 2 minutes ago on branch <span className="ml-2 font-mono bg-slate-200/50 dark:bg-white/10 px-2 py-0.5 rounded-md text-slate-700 dark:text-slate-300 border border-slate-300/50 dark:border-white/5">feature/new-cart</span>
@@ -285,7 +310,7 @@ const Hero = () => {
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="text-base font-bold text-slate-900 dark:text-white flex items-center">
                           ATA AI Analysis & Auto-Fix
-                          <span className="ml-3 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/20">99% Confidence</span>
+                          <Badge variant="secondary" className="ml-3 uppercase tracking-wider text-[10px] bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">99% Confidence</Badge>
                         </h4>
                       </div>
                       <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
@@ -336,10 +361,10 @@ const FeaturesList = () => {
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-24">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300 text-sm font-semibold mb-6 border border-purple-200 dark:border-purple-500/20">
+          <Badge variant="outline" className="px-4 py-1.5 mb-6 text-purple-700 border-purple-200 bg-purple-100 dark:bg-purple-500/10 dark:text-purple-300 dark:border-purple-500/20 space-x-2 text-sm rounded-full">
             <Activity className="w-4 h-4" />
             <span>Next-Gen Capabilities</span>
-          </div>
+          </Badge>
           <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 leading-tight">
             A smarter way to <br className="hidden md:block"/> handle Quality Assurance.
           </h2>
@@ -472,10 +497,10 @@ const HowItWorks = () => {
     <section id="how-it-works" className="py-24 bg-slate-50 dark:bg-[#09090b] relative border-t border-slate-200/50 dark:border-white/5">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 text-sm font-semibold mb-6 border border-blue-200 dark:border-blue-500/20">
+          <Badge variant="outline" className="px-4 py-1.5 mb-6 text-blue-700 border-blue-200 bg-blue-100 dark:bg-blue-500/10 dark:text-blue-300 dark:border-blue-500/20 space-x-2 text-sm rounded-full">
             <Activity className="w-4 h-4" />
             <span>Simple Process</span>
-          </div>
+          </Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">How it works</h2>
           <p className="text-lg text-slate-600 dark:text-slate-400">Three simple steps to automate your QA entirely.</p>
         </div>
@@ -493,13 +518,15 @@ const HowItWorks = () => {
                whileInView={{ opacity: 1, y: 0 }}
                viewport={{ once: true, margin: "-100px" }}
                transition={{ delay: i * 0.2 }}
-               className="relative z-10 flex flex-col items-center text-center p-6"
+               className="relative z-10 h-full"
              >
-               <div className="w-24 h-24 rounded-full bg-white dark:bg-[#111113] border border-slate-200 dark:border-white/10 shadow-xl flex items-center justify-center mb-6 text-2xl font-black text-indigo-600 dark:text-indigo-400">
-                 {item.step}
-               </div>
-               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{item.title}</h3>
-               <p className="text-slate-600 dark:text-slate-400">{item.desc}</p>
+               <Card className="flex flex-col items-center text-center p-6 bg-white/50 dark:bg-[#111113]/50 backdrop-blur-sm border-slate-200 dark:border-white/10 h-full shadow-lg hover:shadow-xl transition-shadow">
+                 <div className="w-20 h-20 rounded-full bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center mb-6 text-xl font-black text-indigo-600 dark:text-indigo-400 ring-4 ring-white dark:ring-[#09090b]">
+                   {item.step}
+                 </div>
+                 <CardTitle className="mb-3 text-xl">{item.title}</CardTitle>
+                 <CardDescription className="text-base text-slate-600 dark:text-slate-400">{item.desc}</CardDescription>
+               </Card>
              </motion.div>
            ))}
         </div>
@@ -517,9 +544,9 @@ const Testimonials = () => {
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {[
-            { quote: "ATA caught a critical checkout bug that our manual QA missed right before Black Friday. It paid for itself in one day.", author: "Sarah Jenkins", role: "CTO @ TechFlow" },
-            { quote: "We deleted 10,000 lines of brittle Cypress tests. Now ATA just maintains them for us. It feels like magic.", author: "David Chen", role: "Lead SDET @ Acme Corp" },
-            { quote: "The self-healing feature alone saves my team 15 hours a week. We can finally focus on shipping features.", author: "Elena Rodriguez", role: "VPE @ StartupX" }
+            { quote: "ATA caught a critical checkout bug that our manual QA missed right before Black Friday. It paid for itself in one day.", author: "Sarah Jenkins", role: "CTO @ TechFlow", initials: "SJ" },
+            { quote: "We deleted 10,000 lines of brittle Cypress tests. Now ATA just maintains them for us. It feels like magic.", author: "David Chen", role: "Lead SDET @ Acme Corp", initials: "DC" },
+            { quote: "The self-healing feature alone saves my team 15 hours a week. We can finally focus on shipping features.", author: "Elena Rodriguez", role: "VPE @ StartupX", initials: "ER" }
           ].map((item, i) => (
              <motion.div 
                key={i}
@@ -527,16 +554,27 @@ const Testimonials = () => {
                whileInView={{ opacity: 1, scale: 1 }}
                viewport={{ once: true, margin: "-100px" }}
                transition={{ delay: i * 0.1 }}
-               className="p-8 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 shadow-sm"
+               className="h-full"
              >
-               <div className="flex space-x-1 mb-6">
-                 {[1,2,3,4,5].map(star => <Star key={star} className="w-5 h-5 text-amber-500 fill-amber-500" />)}
-               </div>
-               <p className="text-slate-700 dark:text-slate-300 text-lg mb-8 font-medium leading-relaxed">"{item.quote}"</p>
-               <div>
-                 <div className="font-bold text-slate-900 dark:text-white">{item.author}</div>
-                 <div className="text-sm text-slate-500">{item.role}</div>
-               </div>
+               <Card className="h-full bg-slate-50/50 dark:bg-white/5 border-slate-100 dark:border-white/10 shadow-sm hover:shadow-md transition-shadow flex flex-col">
+                 <CardHeader className="pb-4">
+                   <div className="flex space-x-1">
+                     {[1,2,3,4,5].map(star => <Star key={star} className="w-4 h-4 text-amber-500 fill-amber-500" />)}
+                   </div>
+                 </CardHeader>
+                 <CardContent className="flex-grow">
+                   <p className="text-slate-700 dark:text-slate-300 font-medium leading-relaxed mb-2">"{item.quote}"</p>
+                 </CardContent>
+                 <CardFooter className="flex items-center space-x-4 pt-4 border-t border-slate-200/50 dark:border-white/5">
+                   <Avatar>
+                     <AvatarFallback className="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300 font-bold">{item.initials}</AvatarFallback>
+                   </Avatar>
+                   <div>
+                     <div className="font-bold text-sm text-slate-900 dark:text-white">{item.author}</div>
+                     <div className="text-xs text-slate-500">{item.role}</div>
+                   </div>
+                 </CardFooter>
+               </Card>
              </motion.div>
           ))}
         </div>
