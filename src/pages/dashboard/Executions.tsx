@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Play, RotateCw } from "lucide-react";
+import { Play } from "lucide-react";
 
 export default function Executions() {
   return (

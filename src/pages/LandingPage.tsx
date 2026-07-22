@@ -139,6 +139,8 @@ const Navbar = ({ theme, toggleTheme }: { theme: string; toggleTheme: () => void
 };
 
 const Hero = () => {
+  const { user } = useAuth();
+
   return (
     <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-6 relative overflow-hidden bg-slate-50 dark:bg-[#09090b]">
       {/* Background gradients */}
