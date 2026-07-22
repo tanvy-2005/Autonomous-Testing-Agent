@@ -322,7 +322,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, theme, toggleThem
 
         {/* User Profile */}
         <DropdownMenu>
-          <DropdownMenuTrigger render={<div />}>
+          <DropdownMenuTrigger asChild>
             <Button 
               variant="ghost" 
               className={cn(
