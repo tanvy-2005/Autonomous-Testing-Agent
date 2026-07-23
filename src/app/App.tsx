@@ -4,6 +4,7 @@ import DashboardShell from "@/components/layout/DashboardShell";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
+import VerifyEmailPage from "@/pages/auth/VerifyEmailPage";
 import LandingPage from "@/pages/landing/LandingPage";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
@@ -23,6 +24,7 @@ export default function App() {
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<RegisterPage />} />
+            <Route path="/verify-email" element={<VerifyEmailPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           </Route>
           <Route element={<ProtectedRoute />}>

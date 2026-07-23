@@ -57,8 +57,8 @@ export function SignupForm({ isDark }: SignupFormProps) {
     setLocalLoading(true);
     try {
       await signup(name, email, password);
-      setSuccessMessage("Account created successfully. Redirecting to login...");
-      setTimeout(() => navigate("/login"), 1500);
+      setSuccessMessage("Account created! Redirecting to verification...");
+      setTimeout(() => navigate("/verify-email", { state: { email } }), 1000);
     } catch (err) {
       setError("Failed to create account.");
     } finally {

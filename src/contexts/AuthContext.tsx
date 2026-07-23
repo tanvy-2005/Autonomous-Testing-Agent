@@ -6,6 +6,7 @@ export interface User {
   name: string;
   email: string;
   avatar?: string;
+  is_verified?: boolean;
 }
 
 interface AuthContextType {
@@ -21,6 +22,7 @@ interface AuthContextType {
   githubLogin: () => Promise<void>;
   logout: () => void;
   forgotPassword: (email: string) => Promise<void>;
+  verifyEmail: (email: string, code: string) => Promise<void>;
   setTheme: (theme: 'light' | 'dark') => void;
   setRememberMe: (remember: boolean) => void;
 }
@@ -52,34 +54,54 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(false);
   }, []);
 
-  const login = async (email: string, _password: string, remember: boolean) => {
-    // TODO: implement real backend login
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        const mockUser = { id: '1', name: 'Tanvy Pandey', email };
-        const mockToken = 'mock-jwt-token';
-        
-        setUser(mockUser);
-        setToken(mockToken);
-        setRememberMe(remember);
-        
-        if (remember) {
-          localStorage.setItem('user', JSON.stringify(mockUser));
-          localStorage.setItem('token', mockToken);
-          localStorage.setItem('rememberMe', 'true');
-        }
-        resolve();
-      }, 1000);
-    });
+  const API_URL = 'http://127.0.0.1:8000/api/v1';
+
+  const login = async (email: string, password: string, remember: boolean) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Login failed');
+      }
+      
+      const data = await response.json();
+      setUser(data.user);
+      setToken(data.token);
+      setRememberMe(remember);
+      
+      if (remember) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('rememberMe', 'true');
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      throw error;
+    }
   };
 
-  const signup = async (_name: string, _email: string, _password: string) => {
-    // TODO: implement real backend signup
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1000);
-    });
+  const signup = async (name: string, email: string, password: string) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Signup failed');
+      }
+      // Instead of auto-login, we let the UI redirect to verify-email
+    } catch (error) {
+      console.error("Signup error:", error);
+      throw error;
+    }
   };
 
   const googleLogin = async () => {
@@ -118,13 +140,44 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('rememberMe');
   };
 
-  const forgotPassword = async (_email: string) => {
-    // TODO: implement real forgot password
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1000);
-    });
+  const forgotPassword = async (email: string) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/forgot-password?email=${encodeURIComponent(email)}`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to send recovery email');
+      }
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      throw error;
+    }
+  };
+
+  const verifyEmail = async (email: string, code: string) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/verify-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Verification failed');
+      }
+      
+      // Update local user state
+      if (user && user.email === email) {
+        const updatedUser = { ...user, is_verified: true };
+        setUser(updatedUser);
+        if (rememberMe) {
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        }
+      }
+    } catch (error) {
+      console.error("Verification error:", error);
+      throw error;
+    }
   };
 
   const handleSetTheme = (newTheme: 'light' | 'dark') => {
@@ -150,6 +203,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     githubLogin,
     logout,
     forgotPassword,
+    verifyEmail,
     setTheme: handleSetTheme,
     setRememberMe: handleSetRememberMe
   };
